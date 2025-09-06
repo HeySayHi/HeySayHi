@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily Changing Image</title>
+  <title>Random Image</title>
   <style>
     body {
       margin: 0;
@@ -23,45 +23,26 @@
 </head>
 <body>
 
-  <img id="daily-image" src="" alt="">
+  <img id="random-image" src="" alt="">
 
   <script>
-    const today = new Date();
-    const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-
-    let imageUrl = "";
-
-    // The base URL for your files on GitHub
     const baseUrl = "https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/";
 
-    switch (dayOfWeek) {
-      case 0: // Sunday
-        imageUrl = baseUrl + "sunday-image.gif"; 
-        break;
-      case 1: // Monday
-        imageUrl = baseUrl + "monday-image.gif"; 
-        break;
-      case 2: // Tuesday
-        imageUrl = baseUrl + "tuesday-image.gif"; 
-        break;
-      case 3: // Wednesday
-        imageUrl = baseUrl + "wednesday-image.gif"; 
-        break;
-      case 4: // Thursday
-        imageUrl = baseUrl + "thursday-image.gif";
-        break;
-      case 5: // Friday
-        imageUrl = baseUrl + "friday-image.gif"; 
-        break;
-      case 6: // Saturday
-        imageUrl = baseUrl + "Saturday.gif"; 
-        break;
-      default:
-        imageUrl = baseUrl + "default-image.gif"; 
-        break;
-    }
+    const imageFiles = [
+      "A.gif",
+      "A.gif",
+      "A.gif",
+      "A.gif",
+      "A.gif",
+      "A.gif"
+    ];
 
-    document.getElementById("daily-image").src = imageUrl;
+    const randomIndex = Math.floor(Math.random() * imageFiles.length);
+    const randomImageFile = imageFiles[randomIndex];
+
+    const imageUrl = baseUrl + randomImageFile;
+
+    document.getElementById("random-image").src = imageUrl;
   </script>
 
 </body>
