@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daily Changing Images</title>
+  <style>
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Today's Image:</h1>
+  
+  <div id="image-container">
+    </div>
+
+  <script>
+    const today = new Date();
+    const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+
+    let imageUrl = "";
+
+    switch (dayOfWeek) {
+      case 0: // Sunday
+        imageUrl = "https://example.com/sunday-image.jpg";
+        break;
+      case 1: // Monday
+        imageUrl = "https://example.com/monday-image.jpg";
+        break;
+      case 2: // Tuesday
+        imageUrl = "https://example.com/tuesday-image.jpg";
+        break;
+      case 3: // Wednesday
+        imageUrl = "https://example.com/wednesday-image.jpg";
+        break;
+      case 4: // Thursday
+        imageUrl = "https://example.com/thursday-image.jpg";
+        break;
+      case 5: // Friday
+        imageUrl = "https://previews.jumpshare.com/gif/815bc01b796dd6f1733c957c5af194930634d0c9415f93e599f64cc58478afec73b63e0591454a8c18e2e1a042f9bd09b3050dfaa67b8a534dcbb85dc4dc4cc2e3fe2afb7039c9cde4caf36c89fc7b8d";
+        break;
+      case 6: // Saturday
+        imageUrl = "https://previews.jumpshare.com/gif/815bc01b796dd6f1733c957c5af194930634d0c9415f93e599f64cc58478afec73b63e0591454a8c18e2e1a042f9bd09b3050dfaa67b8a534dcbb85dc4dc4cc2e3fe2afb7039c9cde4caf36c89fc7b8d";
+        break;
+      default:
+        // You can set a default image for any other case
+        imageUrl = "https://example.com/default-image.jpg";
+        break;
+    }
+
+    // Create the image element and add it to the page
+    if (imageUrl) {
+      const imageElement = document.createElement("img");
+      imageElement.src = imageUrl;
+      imageElement.alt = "Today's image";
+      document.getElementById("image-container").appendChild(imageElement);
+    }
+  </script>
+
+</body>
+</html>
