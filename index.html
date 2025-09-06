@@ -1,5 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Changing Image</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #000;
+      overflow: hidden;
+    }
+    img {
+      max-width: 100%;
+      max-height: 100vh;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <img id="daily-image" src="" alt="Today's image">
 
   <script>
     const today = new Date();
@@ -30,18 +54,12 @@
         imageUrl = "https://previews.jumpshare.com/gif/815bc01b796dd6f1733c957c5af194930634d0c9415f93e599f64cc58478afec73b63e0591454a8c18e2e1a042f9bd09b3050dfaa67b8a534dcbb85dc4dc4cc2e3fe2afb7039c9cde4caf36c89fc7b8d";
         break;
       default:
-        // You can set a default image for any other case
-        imageUrl = "https://example.com/default-image.jpg";
+        // Default image URL
+        imageUrl = "https://example.com/default-image.jpg"; 
         break;
     }
 
-    // Create the image element and add it to the page
-    if (imageUrl) {
-      const imageElement = document.createElement("img");
-      imageElement.src = imageUrl;
-      imageElement.alt = "Today's image";
-      document.getElementById("image-container").appendChild(imageElement);
-    }
+    document.getElementById("daily-image").src = imageUrl;
   </script>
 
 </body>
