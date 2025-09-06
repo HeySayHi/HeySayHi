@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily Changing Image</title>
+  <title>Daily Changing Image (GIFs supported)</title>
   <style>
     body {
       margin: 0;
@@ -31,31 +31,35 @@
 
     let imageUrl = "";
 
+    // The base URL for your files on GitHub
+    // Make sure "HeySayHi" is the correct username and repository name
+    const baseUrl = "https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/";
+
     switch (dayOfWeek) {
       case 0: // Sunday
-        imageUrl = "https://example.com/sunday-image.jpg";
+        imageUrl = baseUrl + "sunday-image.gif"; // Example: A GIF for Sunday
         break;
       case 1: // Monday
-        imageUrl = "https://example.com/monday-image.jpg";
+        imageUrl = baseUrl + "monday-image.gif"; // Can be a JPG
         break;
       case 2: // Tuesday
-        imageUrl = "https://example.com/tuesday-image.jpg";
+        imageUrl = baseUrl + "tuesday-image.gif"; // Can be a PNG
         break;
       case 3: // Wednesday
-        imageUrl = "https://example.com/wednesday-image.jpg";
+        imageUrl = baseUrl + "wednesday-image.gif"; // Example: A GIF for Wednesday
         break;
       case 4: // Thursday
-        imageUrl = "https://example.com/thursday-image.jpg";
+        imageUrl = baseUrl + "thursday-image.gif";
         break;
       case 5: // Friday
-        imageUrl = "https://previews.jumpshare.com/gif/815bc01b796dd6f1733c957c5af194930634d0c9415f93e599f64cc58478afec73b63e0591454a8c18e2e1a042f9bd09b3050dfaa67b8a534dcbb85dc4dc4cc2e3fe2afb7039c9cde4caf36c89fc7b8d";
+        imageUrl = baseUrl + "friday-image.gif"; // Example: A GIF for Friday
         break;
       case 6: // Saturday
-        imageUrl = "https://previews.jumpshare.com/gif/815bc01b796dd6f1733c957c5af194930634d0c9415f93e599f64cc58478afec73b63e0591454a8c18e2e1a042f9bd09b3050dfaa67b8a534dcbb85dc4dc4cc2e3fe2afb7039c9cde4caf36c89fc7b8d";
+        imageUrl = baseUrl + "Saturday.gif"; // The GIF you uploaded
         break;
       default:
-        // Default image URL
-        imageUrl = "https://example.com/default-image.jpg"; 
+        // Default image URL (can be a GIF or any other format)
+        imageUrl = baseUrl + "default-image.jpg"; 
         break;
     }
 
