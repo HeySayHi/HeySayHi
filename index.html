@@ -1,34 +1,59 @@
-<img id="daily-image" src="" alt="صورة اليوم">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Changing Image</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #000;
+      overflow: hidden;
+    }
+    img {
+      max-width: 100%;
+      max-height: 100vh;
+      display: block;
+    }
+  </style>
+</head>
+<body>
 
-<script>
+  <img id="daily-image" src="" alt="">
+
+  <script>
     const today = new Date();
-    const dayOfWeek = today.getDay(); // 0 = الأحد, 1 = الاثنين, ..., 6 = السبت
+    const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
 
     let imageUrl = "";
 
-    // الرابط الأساسي لملفاتك على GitHub
+    // The base URL for your files on GitHub
     const baseUrl = "https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/";
 
     switch (dayOfWeek) {
-      case 0: // الأحد
+      case 0: // Sunday
         imageUrl = baseUrl + "sunday-image.gif"; 
         break;
-      case 1: // الاثنين
+      case 1: // Monday
         imageUrl = baseUrl + "monday-image.gif"; 
         break;
-      case 2: // الثلاثاء
+      case 2: // Tuesday
         imageUrl = baseUrl + "tuesday-image.gif"; 
         break;
-      case 3: // الأربعاء
+      case 3: // Wednesday
         imageUrl = baseUrl + "wednesday-image.gif"; 
         break;
-      case 4: // الخميس
+      case 4: // Thursday
         imageUrl = baseUrl + "thursday-image.gif";
         break;
-      case 5: // الجمعة
+      case 5: // Friday
         imageUrl = baseUrl + "friday-image.gif"; 
         break;
-      case 6: // السبت
+      case 6: // Saturday
         imageUrl = baseUrl + "Saturday.gif"; 
         break;
       default:
@@ -37,4 +62,7 @@
     }
 
     document.getElementById("daily-image").src = imageUrl;
-</script>
+  </script>
+
+</body>
+</html>
