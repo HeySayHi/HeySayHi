@@ -1,30 +1,83 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>عرض الصورة</title>
-  <style>
-    body {
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background-color: #000;
-      overflow: hidden;
-    }
-    img {
-      max-width: 100%;
-      max-height: 100vh;
-      display: block;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Image</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #000;
+            overflow: hidden;
+            color: white; /* لون النص في حال كان هناك نص */
+            font-family: sans-serif;
+            text-align: center;
+        }
+        .day-container {
+            display: none; /* يخفي كل العناصر بشكل افتراضي */
+        }
+        .day-container img {
+            max-width: 100%;
+            max-height: 100vh;
+            display: block;
+        }
+        .visible {
+            display: block; /* يظهر العنصر المرئي فقط */
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Replace the src URL below with the URL of your PHP file on your web server -->
-  <img src="sayhi.infinityfree.me/daily_image.php" alt="">
+    <div id="sun" class="day-container">
+        <!-- Sunday's image -->
+        <img src="https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/sunday-image.gif" alt="Sunday">
+    </div>
+
+    <div id="mon" class="day-container">
+        <!-- Monday's image -->
+        <img src="https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/monday-image.gif" alt="Monday">
+    </div>
+
+    <div id="tues" class="day-container">
+        <!-- Tuesday's image -->
+        <img src="https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/tuesday-image.gif" alt="Tuesday">
+    </div>
+
+    <div id="wed" class="day-container">
+        <!-- Wednesday's image -->
+        <img src="https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/wednesday-image.gif" alt="Wednesday">
+    </div>
+
+    <div id="thurs" class="day-container">
+        <!-- Thursday's image -->
+        <img src="https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/thursday-image.gif" alt="Thursday">
+    </div>
+
+    <div id="fri" class="day-container">
+        <!-- Friday's image -->
+        <img src="https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/friday-image.gif" alt="Friday">
+    </div>
+
+    <div id="sat" class="day-container">
+        <!-- Saturday's image -->
+        <img src="https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/Saturday.gif" alt="Saturday">
+    </div>
+
+    <script>
+        const today = new Date();
+        const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+
+        const days = ['sun', 'mon', 'tues', 'wed', 'thurs', 'fri', 'sat'];
+
+        const currentDayId = days[dayOfWeek];
+
+        // Find the correct div and make it visible
+        document.getElementById(currentDayId).classList.add('visible');
+    </script>
 
 </body>
 </html>
