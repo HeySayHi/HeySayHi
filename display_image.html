@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>صور الأيام</title>
+  <title>عرض الصورة</title>
   <style>
     body {
       margin: 0;
@@ -23,46 +23,8 @@
 </head>
 <body>
 
-  <img id="daily-image" src="" alt="صورة اليوم">
-
-  <script>
-    const today = new Date();
-    const dayOfWeek = today.getDay(); // 0 = الأحد, 1 = الاثنين, ..., 6 = السبت
-
-    let imageUrl = "";
-
-    // The base URL for your images on GitHub
-    const baseUrl = "https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/";
-
-    switch (dayOfWeek) {
-      case 0: // الأحد
-        imageUrl = baseUrl + "sunday-image.gif"; 
-        break;
-      case 1: // الاثنين
-        imageUrl = baseUrl + "monday-image.gif"; 
-        break;
-      case 2: // الثلاثاء
-        imageUrl = baseUrl + "tuesday-image.gif"; 
-        break;
-      case 3: // الأربعاء
-        imageUrl = baseUrl + "wednesday-image.gif"; 
-        break;
-      case 4: // الخميس
-        imageUrl = baseUrl + "thursday-image.gif";
-        break;
-      case 5: // الجمعة
-        imageUrl = baseUrl + "friday-image.gif"; 
-        break;
-      case 6: // السبت
-        imageUrl = baseUrl + "Saturday.gif"; 
-        break;
-      default:
-        imageUrl = baseUrl + "default-image.gif"; 
-        break;
-    }
-
-    document.getElementById("daily-image").src = imageUrl;
-  </script>
+  <!-- Replace the src URL below with the URL of your PHP file on your web server -->
+  <img src="sayhi.infinityfree.me/daily_image.php" alt="">
 
 </body>
 </html>
