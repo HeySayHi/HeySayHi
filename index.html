@@ -1,83 +1,217 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Image</title>
+    <title>سبورة تحدي اليوم</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Scheherazade+New&family=Amiri+Quran&family=Lateef&display=swap');
         body {
-            margin: 0;
+            font-family: 'Tajawal', sans-serif;
+            background-color: #1a1a2e;
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #000;
-            overflow: hidden;
-            color: white; /* لون النص في حال كان هناك نص */
-            font-family: sans-serif;
+            padding: 20px;
+        }
+        .container {
+            background-color: #0d0d1a;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+            max-width: 800px;
+            width: 100%;
+        }
+        .board {
+            min-height: 300px;
+            border: 2px dashed #646cff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            overflow-y: auto;
+            max-height: 500px;
+            position: relative; /* for absolute positioning of entries */
+        }
+        .challenge-title {
+            font-size: 1.5rem;
+            font-weight: 700;
             text-align: center;
+            margin-bottom: 20px;
+            color: #64ffda;
         }
-        .day-container {
-            display: none; /* يخفي كل العناصر بشكل افتراضي */
+        .entry {
+            position: absolute; /* positioned randomly */
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+            white-space: nowrap; /* to keep text on one line */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
         }
-        .day-container img {
-            max-width: 100%;
-            max-height: 100vh;
-            display: block;
+        .entry:hover {
+            transform: scale(1.1);
+            z-index: 10;
         }
-        .visible {
-            display: block; /* يظهر العنصر المرئي فقط */
+        .entry h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        .entry p {
+            font-size: 0.9rem;
+            margin: 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        .form-container input, .form-container button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: none;
+        }
+        .form-container input {
+            background-color: #4b4b6d;
+            color: #fff;
+            padding-right: 15px;
+        }
+        .form-container button {
+            background-color: #64ffda;
+            color: #1a1a2e;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .form-container button:hover {
+            background-color: #3fbc9c;
         }
     </style>
 </head>
 <body>
 
-    <div id="sun" class="day-container">
-        <!-- Sunday's image -->
-        <img src="https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/sunday-image.gif" alt="Sunday">
+    <div class="container">
+        <h1 class="challenge-title">تحدي اليوم: "ما هو أفضل كتاب قرأته في حياتك؟"</h1>
+
+        <div id="board" class="board">
+            <!-- سيتم عرض الإجابات هنا كعناصر فنية -->
+        </div>
+
+        <div class="form-container">
+            <input type="text" id="nameInput" placeholder="اكتب اسمك">
+            <input type="text" id="answerInput" placeholder="اكتب إجابتك هنا">
+            <button onclick="addEntry()">إضافة إجابة</button>
+        </div>
     </div>
 
-    <div id="mon" class="day-container">
-        <!-- Monday's image -->
-        <img src="https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/monday-image.gif" alt="Monday">
-    </div>
+    <script type="module">
+        // Use a Firestore database for persistent storage.
+        // It's already configured to be used.
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const __initial_auth_token = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : undefined;
 
-    <div id="tues" class="day-container">
-        <!-- Tuesday's image -->
-        <img src="https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/tuesday-image.gif" alt="Tuesday">
-    </div>
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    <div id="wed" class="day-container">
-        <!-- Wednesday's image -->
-        <img src="https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/wednesday-image.gif" alt="Wednesday">
-    </div>
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        
+        let boardCollection;
+        let userId;
 
-    <div id="thurs" class="day-container">
-        <!-- Thursday's image -->
-        <img src="https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/thursday-image.gif" alt="Thursday">
-    </div>
+        const colors = ['#FEE8B0', '#FDE7D1', '#FFFACD', '#C6E2E9', '#D4EDDA', '#E5D6F3', '#FFD8BE', '#B2D8D8'];
+        const fonts = ['Tajawal', 'Scheherazade New', 'Amiri Quran', 'Lateef'];
 
-    <div id="fri" class="day-container">
-        <!-- Friday's image -->
-        <img src="https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/friday-image.gif" alt="Friday">
-    </div>
+        async function initApp() {
+            try {
+                if (__initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                
+                userId = auth.currentUser.uid;
+                console.log("User authenticated with ID:", userId);
+                
+                // Use a dynamic collection path based on the app ID
+                const collectionPath = `artifacts/${appId}/public/data/daily_challenge_board`;
+                boardCollection = collection(db, collectionPath);
+                
+                // Set up real-time listener
+                const q = query(boardCollection);
+                onSnapshot(q, (snapshot) => {
+                    const entries = snapshot.docs.map(doc => doc.data()).sort((a, b) => a.timestamp.toDate() - b.timestamp.toDate());
+                    displayEntries(entries);
+                });
+                
+            } catch (error) {
+                console.error("Error initializing Firebase:", error);
+            }
+        }
+        
+        function displayEntries(entries) {
+            const board = document.getElementById('board');
+            board.innerHTML = '';
+            
+            const boardWidth = board.clientWidth;
+            const boardHeight = board.clientHeight;
 
-    <div id="sat" class="day-container">
-        <!-- Saturday's image -->
-        <img src="https://raw.githubusercontent.com/HeySayHi/HeySayHi/main/Saturday.gif" alt="Saturday">
-    </div>
+            entries.forEach(entry => {
+                const entryElement = document.createElement('div');
+                entryElement.className = 'entry';
 
-    <script>
-        const today = new Date();
-        const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+                // Apply random font, color, and rotation
+                const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                const randomRotation = Math.floor(Math.random() * 6) - 3; // -3 to 3 degrees
 
-        const days = ['sun', 'mon', 'tues', 'wed', 'thurs', 'fri', 'sat'];
+                entryElement.style.fontFamily = randomFont;
+                entryElement.style.color = randomColor;
+                entryElement.style.transform = `rotate(${randomRotation}deg)`;
 
-        const currentDayId = days[dayOfWeek];
+                entryElement.innerHTML = `
+                    <h3>${entry.name}</h3>
+                    <p>${entry.answer}</p>
+                `;
+                
+                board.appendChild(entryElement);
 
-        // Find the correct div and make it visible
-        document.getElementById(currentDayId).classList.add('visible');
+                // Position the element randomly within the board
+                const x = Math.random() * (boardWidth - entryElement.offsetWidth - 20);
+                const y = Math.random() * (boardHeight - entryElement.offsetHeight - 20);
+                entryElement.style.left = `${x}px`;
+                entryElement.style.top = `${y}px`;
+            });
+        }
+
+        async function addEntry() {
+            const name = document.getElementById('nameInput').value.trim();
+            const answer = document.getElementById('answerInput').value.trim();
+            
+            if (name && answer) {
+                try {
+                    await addDoc(boardCollection, {
+                        name: name,
+                        answer: answer,
+                        timestamp: serverTimestamp()
+                    });
+                    document.getElementById('nameInput').value = '';
+                    document.getElementById('answerInput').value = '';
+                } catch (error) {
+                    console.error("Error writing document:", error);
+                }
+            }
+        }
+        
+        // Initialize the app on page load
+        initApp();
     </script>
-
 </body>
 </html>
